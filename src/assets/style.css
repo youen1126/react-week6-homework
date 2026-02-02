@@ -1,0 +1,91 @@
+html,
+body {
+    height: 100%;
+    text-align: center;
+    background-color: #493c33;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+img {
+    object-fit: contain;
+    max-width: 100%;
+}
+
+.primary-image {
+    height: 300px;
+}
+
+.images {
+    height: 150px;
+}
+
+.table-wrapper {
+    background: white;
+    border-radius: 6px;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.btn-un {
+    background-color: #e1e1df;
+}
+
+.btn-un:hover {
+    background: #737c75;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.btn-un:active {
+    background: #c5ab89;
+    transform: translateY(-1px);
+}
+
+.btn-un-produck {
+    background-color: #ab8c83;
+    color: #fff;
+}
+
+.btn-un-produck:hover {
+    background: #c5ab89;
+    transform: translateY(-1px);
+}
+
+.btn-un-produck:active {
+    background: #c5ab89;
+    transform: translateY(-1px);
+}
+
+.btn-un-danger {
+    background-color: #965454;
+}
+
+/* Navbar 文字顏色 */
+.nav-link {
+    color: #f1ebcc !important;
+}
+
+/* hover 狀態 */
+.nav-link:hover {
+    color: #ffffff !important;
+}
+
+/* 目前頁面（active） */
+.nav-link.active {
+    color: #f2a72d !important;
+    font-weight: 600;
+}
