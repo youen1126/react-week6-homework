@@ -2,7 +2,6 @@ import { useParams } from "react-router"
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
 
@@ -11,9 +10,9 @@ export default function SingleProduct() {
 
     const { id } = useParams();
     const [item, setItem] = useState();
-
     useEffect(() => {
         const handleView = async (id) => {
+
             try {
                 const res = await axios.get(`${API_BASE}/api/${API_PATH}/product/${id}`)
                 setItem(res.data.product);

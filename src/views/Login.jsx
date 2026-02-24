@@ -1,82 +1,131 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import axios from "axios";
+import { Oval } from "react-loader-spinner";
+import { emailValidation } from "@/utils/emailValidation";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
-const API_PATH = import.meta.env.VITE_API_PATH;
 
+export default function Login() {
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid },
+    } = useForm({
+        mode: 'onChange',
+        defaultValues: {
+            username: "youen1126@gmail.com",
+            password: "",
+        }
+    })
+    const [authData, setAuthData] = useState(null);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
-export default function Login({
-    getProducts,
-    setIsAuth,
-}) {
-
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-    });
-
-    // 綁監聽，(preData)保證取得前一次的值
-    const handleInputChange = (e) => {
-        const { name, value } = e.target
-        setFormData((preData) => ({
-            ...preData,
-            [name]: value,
-        }));
-    };
-
-    //登入api，設定cookies，取token
-    const onSubmit = async (e) => {
+    const onSubmit = async (data) => {
+        setLoading(true);
         try {
-            e.preventDefault();
-            const res = await axios.post(`${API_BASE}/admin/signin`, formData)
-            const { token, expired } = res.data;
-            document.cookie = `myToken=${token};expires=${new Date(expired)};`;
-            axios.defaults.headers.common['Authorization'] = `${token}`;
-            getProducts();
-            setIsAuth(true);
-
-        } catch (error) {
-            setIsAuth(false);
-            console.error(error.response?.data);
+            const response = await axios.post(`${API_BASE}/admin/signin`, data);
+            const { token, expired } = response.data;
+            setAuthData({ token, expired });
+        } catch (err) {
+            alert(`登入失敗：${err.response?.data?.message || err.message}`);
+        } finally {
+            setLoading(false); // 關 spinner
         }
     };
 
+    useEffect(() => {
+        const existingToken = document.cookie.replace(
+            /(?:(?:^|.*;\s*)myToken\s*=\s*([^;]*).*$)|^.*$/,
+            "$1"
+        );
+
+        if (existingToken) {
+            axios.defaults.headers.common.Authorization = existingToken;
+            setLoading(true);
+
+            setTimeout(() => {
+                navigate("/back");
+            }, 300);
+            return;
+        }
+
+        if (authData) {
+            const { token, expired } = authData;
+
+            document.cookie = `myToken=${token};expires=${new Date(expired).toUTCString()}; path=/`;
+            axios.defaults.headers.common.Authorization = token;
+
+            alert("登入成功！");
+            setLoading(true);
+
+            setTimeout(() => {
+                navigate("/back");
+            }, 300);
+        }
+    }, [authData, navigate]);
 
 
     return (<>
+        {loading && (
+            <div className="login-loading p-2">
+                <Oval
+                    height={50}
+                    width={50}
+                    color="#fa7007ff"
+                    secondaryColor="#ccc"
+                    strokeWidth={4}
+                />
+            </div>
+        )}
         <div className="container login">
-            <h2>🌿 歡迎進入種子手作工坊 🌿</h2>
+            <h2>🌿 請先登入 🌿</h2>
             <br />
-            <form className="form-floating" onSubmit={onSubmit}>{/*綁定*/}
+            <form className="form-floating" onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-floating mb-3">
                     <input
                         type="email"
+                        id="username"
                         className="form-control"
                         placeholder="name@example.com"
-                        name="username"
-                        value={formData.username} //綁定上面函式
-                        onChange={(e) => handleInputChange(e)} //綁定事件監聽
+                        {...register("username", emailValidation)
+                        }
                     />
                     <label htmlFor="username">Email address</label>
+                    {errors.username && (
+                        <p className="text-danger">{errors.username.message}</p>)
+                    }
                 </div>
                 <div className="form-floating">
                     <input
                         type="password"
                         className="form-control"
-                        name="password"
+                        id="password"
                         placeholder="Password"
-                        value={formData.password} //綁定上面函式
-                        onChange={(e) => handleInputChange(e)} //綁定事件監聽
+                        {...register("password", {
+                            required: "請輸入密碼",
+                            minLength: {
+                                value: 6,
+                                message: "密碼長度至少需 6 碼",
+                            },
+                        })
+                        }
                     />
                     <label htmlFor="password">Password</label>
+                    {errors.password && (
+                        <p className="text-danger">{errors.password.message}</p>)
+                    }
                 </div>
-                <button type="submit" className="btn btn-un w-100 mt-3">登入</button>
+                <button
+                    type="submit"
+                    className="btn btn-un w-100 mt-3"
+                    disabled={!isValid}
+                >登入</button>
             </form>
 
         </div>
-
-
     </>)
-
 }

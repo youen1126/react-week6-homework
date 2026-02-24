@@ -36,6 +36,7 @@ export default function Home() {
                                 style={{
                                     backgroundColor: "#f1ebcc",
                                     color: "#493c33",
+                                    fontWeight: "700",
                                 }}
                             >
                                 前往商品列表

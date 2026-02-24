@@ -1,0 +1,16 @@
+// @use "bootstrap/scss/bootstrap" as *;
+
+// @use './helpers/variables';
+
+
+// 多人協作reset 由框架組維護，base 由設計組維護
+// @use './base/reset'; // 已合併到 base.scss，保留作為參考(小專案無須拆分)
+
+
+// @use './layout/footer';
+@use './layout/NotFound';
+
+
+// @use './components/cards';
+
+// @use './pages/index';

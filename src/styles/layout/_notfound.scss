@@ -1,0 +1,104 @@
+.nf {
+    min-height: calc(100vh - 80px); // 80px 可換成你 navbar 實際高度
+    background: #1f1a16;
+}
+
+.nf__hero {
+    position: relative;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    background-image: url("https: //images.unsplash.com/photo-1642866081289-d8f60613a3e6?q=80&w=986&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-size: cover;
+    background-position: center;
+}
+
+.nf__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+            rgba(20, 15, 12, 0.78) 0%,
+            rgba(20, 15, 12, 0.62) 45%,
+            rgba(20, 15, 12, 0.25) 100%);
+}
+
+.nf__content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    padding: 72px 16px;
+    color: #f4f1e6;
+}
+
+.nf__code {
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    opacity: 0.85;
+    margin-bottom: 12px;
+}
+
+.nf__title {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin: 0 0 14px;
+}
+
+.nf__desc {
+    font-size: 16px;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin: 0 0 26px;
+}
+
+.nf__actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.nf__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: transform 0.12s ease, opacity 0.12s ease, box-shadow 0.12s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+}
+
+.nf__btn--primary {
+    background: #f1ebcc; // 你前面改 navlink 用過的色系
+    color: #2b241f;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+}
+
+.nf__btn--ghost {
+    background: transparent;
+    color: #f4f1e6;
+    border: 1px solid rgba(244, 241, 230, 0.35);
+
+    &:hover {
+        border-color: rgba(244, 241, 230, 0.55);
+        opacity: 0.95;
+    }
+}
+
+.nf__hint {
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+@media (max-width: 576px) {
+    .nf__title {
+        font-size: 34px;
+    }
+}

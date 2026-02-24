@@ -12,7 +12,7 @@ export default function Cart() {
     const [cart, setCart] = useState([]); //購物車資料
     const [total, setTotal] = useState(); //訂單總金額
 
-    //啟動時就需要的
+
     useEffect(() => {
         const getCart = async () => {
             try {
@@ -74,7 +74,7 @@ export default function Cart() {
     }
 
     return (
-        <div className="container mb-5">
+        <div className="un-container">
             <h2 className="text-center p-5">購物車列表</h2>
             <div className="text-end mt-4">
                 <button type="button" className="btn btn-outline-danger"
