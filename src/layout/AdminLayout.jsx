@@ -1,9 +1,16 @@
 //後台layout
 
 import { Outlet, NavLink } from "react-router";
-import Logout from "../components/Logout";
+import { useNavigate } from "react-router";
+import { logout } from "../utils/logout";
 
 export default function AdminLayout() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/", { replace: true });
+  };
   return (
     <>
       <header
@@ -28,6 +35,15 @@ export default function AdminLayout() {
             <NavLink className="nav-link" to="/admin/order">
               後台管理訂單列
             </NavLink>
+          </li>
+          <li className="nav-item">
+            <button
+              type="button"
+              className="nav-link bg-transparent border-0"
+              onClick={handleLogout}
+            >
+              登出
+            </button>
           </li>
         </ul>
       </header>
