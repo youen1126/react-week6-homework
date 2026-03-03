@@ -115,9 +115,8 @@ function AdminProducts() {
 
       <div className="container p-0 my-3">
         <div className="row mt-5 ">
-          {/*產品列表*/}
           <div className="col-md-6 ">
-            <h2 className="text-white">🌿 產品列表 🌿</h2>
+            <h2 className="text-black">🌿 管理產品列表 🌿</h2>
             <div className="text-end md-1">
               <button
                 type="button"
@@ -197,9 +196,8 @@ function AdminProducts() {
               <Pagination pagination={pagination} onChangePage={getProducts} />
             </div>
           </div>
-          {/*單一產品細節*/}
           <div className="col-md-6">
-            <h2 className="text-white">🌿 單一產品細節 🌿</h2>
+            <h2 className="text-black">🌿 單一產品細節 🌿</h2>
             {seeProduct ? (
               <div className="card m-3">
                 <img
