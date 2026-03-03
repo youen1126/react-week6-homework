@@ -28,7 +28,7 @@ export default function MessageToast() {
                 src={message.img}
                 className="rounded me-2"
                 alt="Cute Cat GIF"
-                style={{ height: "70px" }}
+                style={{ height: "50px" }}
               />
               {message.text}
             </div>

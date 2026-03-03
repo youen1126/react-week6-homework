@@ -1,12 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import * as bootstrap from "bootstrap";
 import ProductModal from "../../components/ProductModal";
 import Pagination from "../../components/Pagination";
 import { Oval } from "react-loader-spinner";
-import { useDispatch } from "react-redux";
-import { createAsyncMessage } from "../../slice/messageSlice";
-import useMessage from "../../hooks/useMessage";
+import useMessage from "@/hooks/useMessage";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -37,8 +34,7 @@ function AdminProducts() {
   const productModalRef = useRef(null);
 
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const { showSuccess } = useMessage;
+  const { showSuccess, showError } = useMessage();
 
   //取得遠端products data
   const getProducts = async (page = 1) => {
@@ -49,41 +45,17 @@ function AdminProducts() {
       );
       setProducts(res.data.products);
       setPagination(res.data.pagination);
-      showSuccess("取得成功");
+      showSuccess("產品data取得成功");
     } catch (error) {
-      dispatch(createAsyncMessage(error.response?.data));
-      //showError('取得失敗')
+      console.error("catch失敗", error);
+      showError("產品data取得失敗");
     } finally {
-      setLoading(false); // 關 spinner
+      setLoading(false);
     }
   };
 
-  //存token保持登入狀態
   useEffect(() => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("myToken="))
-      ?.split("=")[1];
-    if (token) {
-      axios.defaults.headers.common.Authorization = token;
-    }
-
-    //DOM綁
-    productModalRef.current = new bootstrap.Modal("#productModal", {
-      keyboard: false,
-    });
-
-    async function checkLogin() {
-      try {
-        const res = await axios.post(`${API_BASE}/api/user/check`);
-        console.warn("有取得token,成功登入", res.status);
-        getProducts();
-      } catch (error) {
-        dispatch(createAsyncMessage(error.response?.data));
-        //showError('登入失敗')
-      }
-    }
-    checkLogin();
+    getProducts();
   }, []);
 
   const openModal = (type, product) => {

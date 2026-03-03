@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 import { emailValidation } from "@/utils/emailValidation";
+import useMessage from "@/hooks/useMessage";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -22,6 +23,7 @@ export default function Login() {
   const [authData, setAuthData] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { showSuccess, showError } = useMessage();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -30,7 +32,8 @@ export default function Login() {
       const { token, expired } = response.data;
       setAuthData({ token, expired });
     } catch (err) {
-      alert(`登入失敗：${err.response?.data?.message || err.message}`);
+      showError(`登入失敗，:${err.response?.data.message || err.message}`);
+      //alert(`登入失敗：${err.response?.data?.message || err.message}`);
     } finally {
       setLoading(false); // 關 spinner
     }
@@ -58,7 +61,8 @@ export default function Login() {
       document.cookie = `myToken=${token};expires=${new Date(expired).toUTCString()}; path=/`;
       axios.defaults.headers.common.Authorization = token;
 
-      alert("登入成功！");
+      showSuccess(`登入成功！`);
+      //alert("登入成功！");
       setLoading(true);
 
       setTimeout(() => {

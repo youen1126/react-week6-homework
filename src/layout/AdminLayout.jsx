@@ -3,12 +3,14 @@
 import { Outlet, NavLink } from "react-router";
 import { useNavigate } from "react-router";
 import { logout } from "../utils/logout";
+import useMessage from "@/hooks/useMessage";
 
 export default function AdminLayout() {
   const navigate = useNavigate();
-
+  const { showSuccess } = useMessage();
   const handleLogout = () => {
     logout();
+    showSuccess("登出成功！");
     navigate("/", { replace: true });
   };
   return (
